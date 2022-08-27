@@ -9,7 +9,12 @@
 Forked by me from https://github.com/SpoturDeal
 https://github.com/SpoturDeal/ESP32-dBmeter-with-MQTT
 /*
- *
+ *#define WIFI_SSID  "HealthDataInsight"
+ #define WIFI_PASSWORD "qu1ckstartgu1de"
+ #define MQTT_PORT 1883
+ #define MQTT_ID  "jem"
+ #define MQTT_Password  "Th1spassw0rd"
+ #define MQTT_HOST IPAddress(10, 0, 1, 30)
  */
 #include <Arduino.h>
 #include <driver/i2s.h>
@@ -231,7 +236,7 @@ void connect_mqtt()
         // Create a random client ID
         String clientId = "dBmeter-";
         clientId += String(random(0xffff), HEX);
-        if (mqttClient.connect(clientId.c_str(), USER_MQTT, PASW_MQTT))
+        if (mqttClient.connect(clientId.c_str(), MQTT_ID, MQTT_PASSWORD))
         {
             //mqttClient.setCallback(callback);                           // set the call back function
             //mqttClient.subscribe(mqttTopicSubscribe);                   // subscribe to topic
@@ -261,7 +266,7 @@ void setupWifi() {
     WiFi.setAutoConnect(true);
     // if the EEProm holds data for fixed address
     WiFi.mode(WIFI_STA);
-    WiFi.begin(SSID, PASW);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     delay(150);
     WiFi.setHostname("dBmeter");
     Serial.print("Wifi connect result ");
@@ -420,7 +425,7 @@ void setup() {
     delay(1000); // Safety
     mqttClient.setSocketTimeout(30);
     mqttClient.setKeepAlive(30);
-    mqttClient.setServer(IP_MQTT, PORT_MQTT);
+    mqttClient.setServer(MQTT_HOST, MQTT_PORT);
 
 
     // Create FreeRTOS queue
