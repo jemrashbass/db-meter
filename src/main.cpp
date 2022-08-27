@@ -21,7 +21,7 @@ https://github.com/SpoturDeal/ESP32-dBmeter-with-MQTT
 #include "sos-iir-filter.h"
 #include <PubSubClient.h>
 #include <WiFi.h>
-#include "Jem_credentials.h"
+#include "Jem_credentials_HDI.h"
 
  //
  // Configuration added for MQTT and Wifi

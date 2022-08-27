@@ -6,5 +6,5 @@
 #define WIFI_PASSWORD "qu1ckstartgu1de"
 #define MQTT_PORT 1883
 #define MQTT_ID  "jem"
-#define MQTT_Password  "Th1spassw0rd"
+#define MQTT_PASSWORD  "Th1spassw0rd"
 #define MQTT_HOST IPAddress(10, 0, 1, 30)
