@@ -17,21 +17,22 @@ https://github.com/SpoturDeal/ESP32-dBmeter-with-MQTT
  #define MQTT_HOST IPAddress(10, 0, 1, 30)
  */
 #include <Arduino.h>
-#include <driver/i2s.h>
+#include "i2s.h"
 #include "sos-iir-filter.h"
 #include <PubSubClient.h>
 #include <WiFi.h>
-#include "Jem_credentials_HDI.h"
+#include "Jem_credentials_studioBS.h"
 
  //
  // Configuration added for MQTT and Wifi
- //
+ /*/
 #define SSID "***********"
 #define PASW "***********"
 #define USER_MQTT "************"
 #define PASW_MQTT "************"
 #define IP_MQTT "192.168.0.0"
 #define PORT_MQTT 1883
+*/
 int connectCount = 0;
 int tryConnectSTA = 0;
 double baseDB = 0;
@@ -316,10 +317,11 @@ void mic_i2s_init() {
         intr_alloc_flags: ESP_INTR_FLAG_LEVEL1,
         dma_buf_count: DMA_BANKS,
         dma_buf_len: DMA_BANK_SIZE,
-        use_apll: true,
-        tx_desc_auto_clear: false,
-        fixed_mclk: 0
+        //use_apll: true,
+        //tx_desc_auto_clear: false,
+        //fixed_mclk: 0
     };
+
     // I2S pin mapping
     const i2s_pin_config_t pin_config ={
         bck_io_num:   I2S_SCK,
@@ -369,7 +371,7 @@ void mic_i2s_reader_task(void* parameter) {
 
     // Discard first block, microphone may have startup time (i.e. INMP441 up to 83ms)
     size_t bytes_read = 0;
-    i2s_read(I2S_PORT, &samples, SAMPLES_SHORT * sizeof(int32_t), &bytes_read, portMAX_DELAY);
+    //i2s_read(I2S_PORT, &samples, SAMPLES_SHORT * sizeof(int32_t), &bytes_read, portMAX_DELAY);
 
     while (true) {
         // Block and wait for microphone values from I2S
@@ -379,7 +381,7 @@ void mic_i2s_reader_task(void* parameter) {
         //
         // Note: i2s_read does not care it is writing in float[] buffer, it will write
         //       integer values to the given address, as received from the hardware peripheral.
-        i2s_read(I2S_PORT, &samples, SAMPLES_SHORT * sizeof(SAMPLE_T), &bytes_read, portMAX_DELAY);
+        //i2s_read(I2S_PORT, &samples, SAMPLES_SHORT * sizeof(SAMPLE_T), &bytes_read, portMAX_DELAY);
 
         TickType_t start_tick = xTaskGetTickCount();
 
